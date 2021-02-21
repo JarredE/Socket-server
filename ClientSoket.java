@@ -21,24 +21,11 @@ public class ClientSoket{
 		String host = args[0];
 		int port = Integer.parseInt(args[1]);
         
-	        //Socket socket = null;
-        
-	        //ObjectOutputStream oos = null;        
-	        //ObjectInputStream ois = null;
-        
-	        //for(int i=0; i<5;i++){
         	
         	    //establish socket connection to server
 	            try(Socket socket = new Socket(host, port)){
             
-		            //write to socket using ObjectOutputStream
-	        	    //oos = new ObjectOutputStream(socket.getOutputStream());
-            
         	    	System.out.println("Sending request to Socket Server");
-		/*if(i==4)
-		oos.writeObject("exit");
-            else
-		oos.writeObject(""+i);*/
             
         	    //read the server response message
 	            InputStream ois = socket.getInputStream();
@@ -59,7 +46,5 @@ public class ClientSoket{
 			System.out.println("I/O error: " + ex.getMessage());
 		}//catch
             
-	            //Thread.sleep(100);
-	        //}
 	}//main
 }//ClientSoket
