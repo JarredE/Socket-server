@@ -106,6 +106,8 @@ import java.time.Duration;
 								break;
 						}//switch
 					}//while
+					write.println("Goodbye - AOL");
+					socket.close();
 				}//while
 			}catch(IOException ex){//try
 
