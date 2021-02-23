@@ -1,4 +1,3 @@
-//package pkg1;
 import java.io.*;
 import java.net.*;
 
@@ -27,18 +26,18 @@ public class ClientSoket{
             
         	    	System.out.println("Sending request to Socket Server");
             
-        	    //read the server response message
-	            InputStream ois = socket.getInputStream();
-		    BufferedReader reader = new BufferedReader(new InputStreamReader(ois));
+	        	    //read the server response message
+		            InputStream ois = socket.getInputStream();
+			    BufferedReader reader = new BufferedReader(new InputStreamReader(ois));
 
-		    String message = reader.readLine();
+			    String message = reader.readLine();
 
-	            //String message = (String) ois.readObject();
+		            //String message = (String) ois.readObject();
             
-	            System.out.println("Message: " + message);
+	        	    System.out.println("Message: " + message);
             
-        	    //close resources
-	            ois.close();
+	        	    //close resources
+		            ois.close();
 
 	    	}catch (UnknownHostException ex){
 			System.out.println("Server not found->" + ex.getMessage());
