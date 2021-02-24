@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-
+import java.util.Scanner;
 /**
  * This class implements java socket client
  * @author Jarred E.
@@ -9,41 +9,79 @@ import java.net.*;
 public class ClientSoket{
 
 	public static void main(String[] args){
-    		if(args.length < 2)
-			return;
 
-        //get the localhost IP address, if server is running on some other IP, you need to use that
-        //This implies that the server is listening locally
-	//InetAddress host = InetAddress.getLocalHost();
-	
-		//PLAYERS
-		String host = args[0];
-		int port = Integer.parseInt(args[1]);
+		Scanner user = new Scanner(System.in);
+		
+		System.out.println("Enter The number of threads");
+  
+	        int numOfthread = user.nextInt();
+	        
+	        for(int i = 0; i < numOfthread; i++) {
+	        	
+	        	Thread thrd = new Thread(new Client());
+	        	thrd.start();
+	        }
+	        
+	        user.close();
         
-        	
-        	    //establish socket connection to server
-	            try(Socket socket = new Socket(host, port)){
-            
-        	    	System.out.println("Sending request to Socket Server");
-            
-	        	    //read the server response message
-		            InputStream ois = socket.getInputStream();
-			    BufferedReader reader = new BufferedReader(new InputStreamReader(ois));
-
-			    String message = reader.readLine();
-
-		            //String message = (String) ois.readObject();
-            
-	        	    System.out.println("Message: " + message);
-            
-	        	    //close resources
-		            ois.close();
-
-	    	}catch (UnknownHostException ex){
-			System.out.println("Server not found->" + ex.getMessage());
-		}catch (IOException ex){
-			System.out.println("I/O error: " + ex.getMessage());
-		}//catch
-            
 	}//main
 }//ClientSoket
+
+
+
+class Client implements Runnable{
+
+	@Override
+	public synchronized void run() {
+	int flag = 0;
+	while(flag==0){	
+		try(Socket socket = new Socket("139.62.210.153" , 4269)){
+
+	    	System.out.println("Sending request to Socket Server");
+
+	    	// gets the input stream from the server
+	    	InputStream input = socket.getInputStream();
+	        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+	       	PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+		writer.println('1');
+	        String recive = reader.readLine();
+		System.out.println(recive);
+
+		try{
+			Thread.sleep(1000);
+		}catch(InterruptedException e){
+			System.out.println("SHIT");
+		};
+		writer.println('2');
+		writer.println('3');
+		writer.println('4');
+		writer.println('5');
+		writer.println('6');
+		writer.println('0');
+
+	         recive = reader.readLine();
+	         System.out.println(recive);
+
+	         input.close();
+		 flag++;
+
+	}catch (UnknownHostException ex){
+	System.out.println("Server not found->" + ex.getMessage());
+}catch (IOException ex){
+	System.out.println("I/O error: " + ex.getMessage());
+}
+}//while
+		
+		
+		
+		
+	}
+	
+}
+
+
+
+
+
+
+

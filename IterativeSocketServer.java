@@ -33,22 +33,22 @@ import java.time.Duration;
 					PrintWriter write = new PrintWriter(out, true);
 					InputStream in = socket.getInputStream();
 					BufferedReader read = new BufferedReader(new InputStreamReader(in));
-					int c = read.readLine().charAt(0);
+					char c = read.readLine().charAt(0);
 
-					while(c != 0){//0 == disconnect
+					while(c != '0'){//0 == disconnect
 						switch(c){
-							case 1://date & time
+							case '1'://date & time
 								TimeZone tz = TimeZone.getTimeZone("America/Florida");
 								Locale lo = new Locale("ENGLISH");
 								Calendar cal = Calendar.getInstance(tz,lo); 
 								write.println(cal.getTime().toString());
 								break;
-							case 2://uptime
+							case '2'://uptime
 								Instant brk = Instant.now();
 								Duration time = Duration.between(s,brk);
-								write.println("DAYS: " + time.toDays() + "HOURS: " + time.toHours() + "MIN: " + time.toMinutes() + "SECS: " + time.toMillis() * 1000);
+								write.println("DAYS: " + time.toDays() + " HOURS: " + time.toHours() + " MIN: " + time.toMinutes() + " SECS: " + time.toMillis() * 1000);
 								break;
-							case 3://Memory Usage
+							case '3'://Memory Usage
 								try{
 									//MORE PLAYERS
 									Process p = Runtime.getRuntime().exec("free");
@@ -65,7 +65,7 @@ import java.time.Duration;
 										write.println(str);
 								}catch(IOException e){}
 								break;
-							case 4://Netstat
+							case '4'://Netstat
 								try{
 									//MORE PLAYERS
 									Process p = Runtime.getRuntime().exec("netstat");
@@ -77,7 +77,7 @@ import java.time.Duration;
 										write.println(str);
 								}catch(IOException e){}
 								break;
-							case 5://Current Users
+							case '5'://Current Users
 								try{
 								//MORE PLAYERS
 									Process p = Runtime.getRuntime().exec("w");
@@ -89,7 +89,7 @@ import java.time.Duration;
 										write.println(str);
 								}catch(IOException e){}
 								break;
-							case 6://Running Processes
+							case '6'://Running Processes
 								try{
 									//MORE PLAYERS
 									Process p = Runtime.getRuntime().exec("ps");
@@ -105,6 +105,7 @@ import java.time.Duration;
 								write.println("UNKNOWN COMMAND");
 								break;
 						}//switch
+						c = read.readLine().charAt(0);//read next in
 					}//while
 					write.println("Goodbye - AOL");
 					socket.close();
