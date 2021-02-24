@@ -46,7 +46,7 @@ import java.time.Duration;
 							case '2'://uptime
 								Instant brk = Instant.now();
 								Duration time = Duration.between(s,brk);
-								write.println("DAYS: " + time.toDays() + " HOURS: " + time.toHours() + " MIN: " + time.toMinutes() + " SECS: " + time.toMillis() * 1000);
+								write.println("DAYS: " + time.toDays() + " HOURS: " + time.toHours() + " MIN: " + time.toMinutes() + " SECS: " + time.toMillis() / 1000);
 								break;
 							case '3'://Memory Usage
 								try{
