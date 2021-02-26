@@ -38,9 +38,9 @@ import java.time.Duration;
 					while(c != '0'){//0 == disconnect
 						switch(c){
 							case '1'://date & time
-								TimeZone tz = TimeZone.getTimeZone("America/Florida");
+								TimeZone tz = TimeZone.getTimeZone("EST");
 								Locale lo = new Locale("ENGLISH");
-								Calendar cal = Calendar.getInstance(tz,lo); 
+								Calendar cal = Calendar.getInstance(tz,lo);
 								write.println(cal.getTime().toString());
 								break;
 							case '2'://uptime
@@ -58,8 +58,9 @@ import java.time.Duration;
 
 									//EXECUTE
 									//SUCCESS...
-									while((str = rd0.readLine()) != null)
+									while((str = rd0.readLine()) != null){
 										write.println(str);
+									}//while
 									//..OR ERROR
 									while((str = rd1.readLine()) != null)
 										write.println(str);

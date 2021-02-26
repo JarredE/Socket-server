@@ -43,27 +43,65 @@ class Client implements Runnable{
 	    	InputStream input = socket.getInputStream();
 	        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 	       	PrintWriter writer = new PrintWriter(socket.getOutputStream(), true);
+	       	
+	       	
+	       	long time = System.currentTimeMillis();
+	       	
 		writer.println('1');
+		
+		
+		
 	        String recive = reader.readLine();
 		System.out.println(recive);
+		
+		long time2 = System.currentTimeMillis();
 
 		try{
-			Thread.sleep(1000);
+			Thread.sleep(10);
 		}catch(InterruptedException e){
-			System.out.println("SHIT");
+			System.out.println("Could not complete");
 		};
 		writer.println('2');
+		try{
+			Thread.sleep(10);
+		}catch(InterruptedException e){
+			System.out.println("Could not complete");
+		};
 		writer.println('3');
+		try{
+			Thread.sleep(40);
+		}catch(InterruptedException e){
+			System.out.println("Could not complete");
+		};
 		writer.println('4');
+		try{
+			Thread.sleep(40);
+		}catch(InterruptedException e){
+			System.out.println("Could not complete");
+		};
 		writer.println('5');
+		try{
+			Thread.sleep(40);
+		}catch(InterruptedException e){
+			System.out.println("Could not complete");
+		};
 		writer.println('6');
+		try{
+			Thread.sleep(40);
+		}catch(InterruptedException e){
+			System.out.println("Could not complete");
+		};
 		writer.println('0');
 
 	         recive = reader.readLine();
 	         System.out.println(recive);
 
 	         input.close();
+	         
+	         long Delay = time2 - time;
+			 System.out.println("The delay is: "+ Delay + "ms");
 		 flag++;
+		 
 
 	}catch (UnknownHostException ex){
 	System.out.println("Server not found->" + ex.getMessage());
