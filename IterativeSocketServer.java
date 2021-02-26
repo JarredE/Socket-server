@@ -18,22 +18,27 @@ import java.time.Duration;
 			String hostname = args[0];
 	                int port = Integer.parseInt(args[0]);
 
+
+
 			try (ServerSocket serv = new ServerSocket(port)){
 				System.out.println("Server is listening on port#" + port + "...");
+
+				//MORE PLAYERS
+				Socket socket = serv.accept();
+				System.out.println("...connected...");
+
+				OutputStream out = socket.getOutputStream();
+				PrintWriter write = new PrintWriter(out, true);
+				InputStream in = socket.getInputStream();
+				BufferedReader read = new BufferedReader(new InputStreamReader(in));
+				char c = read.readLine().charAt(0);
+
 
 				//Keeps time
 				Instant s = Instant.now();
 
 				while(true){
-					Socket socket = serv.accept();
-					System.out.println("...connected...");
 
-					//MORE PLAYERS
-					OutputStream out = socket.getOutputStream();
-					PrintWriter write = new PrintWriter(out, true);
-					InputStream in = socket.getInputStream();
-					BufferedReader read = new BufferedReader(new InputStreamReader(in));
-					char c = read.readLine().charAt(0);
 
 					while(c != '0'){//0 == disconnect
 						switch(c){
@@ -59,11 +64,14 @@ import java.time.Duration;
 									//EXECUTE
 									//SUCCESS...
 									while((str = rd0.readLine()) != null){
+										System.out.print("successful execution");
+										System.out.println(str);
 										write.println(str);
 									}//while
 									//..OR ERROR
-									while((str = rd1.readLine()) != null)
+									while((str = rd1.readLine()) != null){
 										write.println(str);
+									}//while
 								}catch(IOException e){}
 								break;
 							case '4'://Netstat
