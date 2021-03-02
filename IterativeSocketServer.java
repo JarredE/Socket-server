@@ -10,13 +10,30 @@ import java.time.Duration;
 	public class IterativeSocketServer{
 	        public static void main(String []args){
 	                if(args.length < 0x1){
-	                        System.out.println("Please enter port number...");
+	                        System.out.println("Formula: port#...aborting...");
 	                        return;
 	                }//if
 
-			//THE PLAYERS			
-			String hostname = args[0];
-	                int port = Integer.parseInt(args[0]);
+			//THE PLAYERS
+			//args[0] == port number
+
+			Thread server = new Thread(new Server(Integer.parseInt(args[0])));
+			server.run();
+		
+		}//main
+
+	}//IterativeSocketServer
+
+	class Server implements Runnable{
+
+		int port;
+
+		Server(int newPort){
+			port = newPort;
+		}//Server
+
+		@Override
+		public synchronized void run(){
 
 			try (ServerSocket serv = new ServerSocket(port)){
 				System.out.println("Server is listening on port#" + port + "...");
@@ -24,15 +41,42 @@ import java.time.Duration;
 				//Keeps time
 				Instant s = Instant.now();
 
+
+				
 				while(true){
 					//MORE PLAYERS
 					Socket socket = serv.accept();
 					System.out.println("...connected...");
 
+					Thread listen = new Thread(new ear(socket, s));
+					listen.start();
+
+				}//while
+
+			}catch(IOException ex){//try
+				System.out.println("Server exception: " + ex.getMessage());
+				ex.printStackTrace();
+			}//catch
+		}//run
+
+	class ear implements Runnable{
+		Socket socket;
+		Instant s;
+
+		ear(Socket newSocketRef, Instant newS){
+			socket = newSocketRef;
+			s = newS;
+		}//ear
+
+		@Override
+		public synchronized void run(){
+
+			try{
 					OutputStream out = socket.getOutputStream();
 					PrintWriter write = new PrintWriter(out, true);
 					InputStream in = socket.getInputStream();
 					BufferedReader read = new BufferedReader(new InputStreamReader(in));
+
 					char c = read.readLine().charAt(0);
 
 					while(c != '0'){//0 == disconnect
@@ -102,16 +146,18 @@ import java.time.Duration;
 								write.println("UNKNOWN COMMAND");
 								break;
 						}//switch
+
 						c = read.readLine().charAt(0);//read next in
 					}//while
 						write.println("Goodbye - AOL");
 						System.out.println("...disconnected");
 						socket.close();
-				}//while
 			}catch(IOException ex){//try
 				System.out.println("Server exception: " + ex.getMessage());
 				ex.printStackTrace();
 			}//catch
 
-		}//main
-	}//IterativeSocketServer
+		}//run
+	}//ear
+
+}//Server
